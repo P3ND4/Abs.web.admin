@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Agregar producto</h2>
+
+<mat-dialog-content class="form-dialog">
+    <form [formGroup]="creationForm" class="creation-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Id</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="id">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="description">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Categoría</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="category">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Precio</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="price" type="number">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Costo</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="cost" type="number">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>U/M</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="unit">
+        
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="stock" type="number">
+        
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="add()">Agregar</button>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+
+</mat-dialog-actions>

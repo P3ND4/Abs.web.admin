@@ -1,22 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { IProduct } from '../model/Product';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApiServiceService } from '../services/api-service.service';
-
-
+import {MatButtonModule} from '@angular/material/button'
+import {MatIconModule} from '@angular/material/icon'
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateComponent } from './create/create.component';
 
 @Component({
   selector: 'app-catalog',
-  imports: [MatTableModule, MatCheckboxModule],
+  imports: [MatTableModule, MatCheckboxModule, MatButtonModule, MatIconModule, MatDialogModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
 export class CatalogComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol', 'category', 'stock'];
   dataSource = new MatTableDataSource<IProduct>([]);
   selection = new SelectionModel<IProduct>(true, []);
+  readonly dialog = inject(MatDialog);
+
+
+
 
   constructor(private api: ApiServiceService) { }
 
@@ -29,6 +35,11 @@ export class CatalogComponent implements OnInit {
         console.error('Error fetching products:', error);
       }
     );
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CreateComponent, {
+      data: {},
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

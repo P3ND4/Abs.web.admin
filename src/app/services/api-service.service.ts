@@ -27,7 +27,7 @@ export class ApiServiceService {
   }
 
   createProduct(product: IProduct): Observable<IProduct | any> {
-    return this.http.post<IProduct>(`${this.baseUrl}products/create`, product).pipe(
+    return this.http.post<IProduct>(`${this.baseUrl}products/add`, product).pipe(
       map((response: IProduct) => {
         return response;
       }),

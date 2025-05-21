@@ -24,26 +24,36 @@
   
     <!-- Position Column -->
     <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
   
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
   
     <!-- Weight Column -->
     <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <th mat-header-cell *matHeaderCellDef> Precio </th>
       <td mat-cell *matCellDef="let element"> {{element.price}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
     <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <th mat-header-cell *matHeaderCellDef> Costo </th>
       <td mat-cell *matCellDef="let element"> {{element.cost}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Categoría </th>
+      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef> Stock </th>
+      <td mat-cell *matCellDef="let element"> {{element.stock}} </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -51,4 +61,21 @@
         (click)="selection.toggle(row)">
     </tr>
   </table>
+  <div class="button-container">
+    <button mat-fab color="primary" class="opt-button" (click)="openDialog()">
+      <mat-icon>
+        add
+      </mat-icon>
+    </button>
+    <button mat-fab color="primary" class="opt-button">
+      <mat-icon>
+        delete
+      </mat-icon>
+    </button>
+    <button mat-fab color="primary" class="opt-button">
+      <mat-icon>
+        edit
+      </mat-icon>
+    </button>
+  </div>
   
