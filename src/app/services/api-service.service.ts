@@ -36,4 +36,15 @@ export class ApiServiceService {
         return throwError(() => error);
       }))
   }
+
+  deleteProduct(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}products/${id}`).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error deleting product:', error);
+        return throwError(() => error);
+      }))
+  }
 }

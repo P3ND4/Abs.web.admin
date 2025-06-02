@@ -66,6 +66,28 @@ export class CatalogComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
+  deleteSelected() {
+    const selectedProducts = this.selection.selected;
+    console.log(selectedProducts)
+    for(let prod of selectedProducts){
+      this.api.deleteProduct(prod.id).subscribe(
+        () => {
+          // Remove the deleted product from the data source
+          const index = this.dataSource.data.indexOf(prod);
+          if (index >= 0) {
+            this.selection.toggle(prod)
+            this.dataSource.data.splice(index, 1);
+            this.dataSource._updateChangeSubscription(); // Update the data source
+          }
+        },
+        (error) => {
+          console.error('Error deleting product:', error);
+        }
+      );
+    }
+    
+  }
+
 
 }
 
