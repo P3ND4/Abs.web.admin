@@ -9,7 +9,7 @@ import { IProduct } from '../model/Product';
 })
 export class ApiServiceService {
 
-  baseUrl: string = 'https://absapi-production.up.railway.app/';
+  baseUrl: string = 'http://localhost:4000/';
 
   constructor(private http: HttpClient) {
 

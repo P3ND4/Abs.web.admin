@@ -4,10 +4,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApiServiceService } from '../services/api-service.service';
-import {MatButtonModule} from '@angular/material/button'
-import {MatIconModule} from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateComponent } from './create/create.component';
+import { EditComponent } from './edit/edit.component';
+import { error } from 'console';
 
 @Component({
   selector: 'app-catalog',
@@ -36,10 +38,31 @@ export class CatalogComponent implements OnInit {
       }
     );
   }
-  openDialog(): void {
+  openDialogCreate(): void {
     const dialogRef = this.dialog.open(CreateComponent, {
       data: {},
     });
+    dialogRef.afterClosed().subscribe({
+      next: (value) => {
+        this.api.getProducts().subscribe(
+          (data: IProduct[]) => {
+            this.dataSource.data = data;
+          },
+          (error) => {
+            console.error('Error fetching products:', error);
+          }
+        );
+      }
+    })
+
+  }
+  openDialogEdit(): void {
+    const dialogRef = this.dialog.open(EditComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe(
+
+    )
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -66,10 +89,14 @@ export class CatalogComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
+  isSomethingSelected(): Boolean {
+    return this.selection.selected.length > 0
+  }
+
   deleteSelected() {
     const selectedProducts = this.selection.selected;
     console.log(selectedProducts)
-    for(let prod of selectedProducts){
+    for (let prod of selectedProducts) {
       this.api.deleteProduct(prod.id).subscribe(
         () => {
           // Remove the deleted product from the data source
@@ -85,7 +112,7 @@ export class CatalogComponent implements OnInit {
         }
       );
     }
-    
+
   }
 
 
