@@ -41,8 +41,13 @@
         <mat-form-field appearance="outline">
             <mat-label>Stock</mat-label>
             <input matInput placeholder="Placeholder" formControlName="stock" type="number">
-        
         </mat-form-field>
+        <label class="upload-btn">
+            📸 Subir imagen
+            <input type="file" (change)="onFileSelected($event)" hidden/>
+        </label>
+        <img *ngIf="previewUrl" [src]="selectedFile" alt="preview">
+        
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>

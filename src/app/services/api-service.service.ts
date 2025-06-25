@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { error } from 'console';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { IProduct } from '../model/Product';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class ApiServiceService {
       }))
   }
 
-  createProduct(product: IProduct): Observable<IProduct | any> {
+  createProduct(product: FormData): Observable<IProduct | any> {
     return this.http.post<IProduct>(`${this.baseUrl}products/add`, product).pipe(
       map((response: IProduct) => {
         return response;
@@ -46,5 +46,17 @@ export class ApiServiceService {
         console.error('Error deleting product:', error);
         return throwError(() => error);
       }))
+  }
+  editProduct(prod: IProduct){
+    return this.http.put(`${this.baseUrl}products/edit`,prod).pipe(
+      map(
+        (response) => {
+          return response
+        }),
+      catchError((error) => {
+        console.error('Error deleting product:', error);
+        return throwError(() => error)
+      })
+    )
   }
 }

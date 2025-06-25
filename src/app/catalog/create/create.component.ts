@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +17,9 @@ import { IProduct } from '../../model/Product';
 export class CreateComponent {
   readonly dialogRef = inject(MatDialogRef<CreateComponent>);
   creationForm: FormGroup
-  constructor(private api: ApiServiceService, private fb: FormBuilder) {
+  selectedFile: File | null = null
+  previewUrl: string | null = null;
+  constructor(private api: ApiServiceService, private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object) {
 
     this.creationForm = this.fb.group({
       description: ['', [Validators.required]],
@@ -34,19 +36,33 @@ export class CreateComponent {
     this.dialogRef.close();
   }
 
-  add() {
-    const product: IProduct = {
-      id: this.creationForm.get('id')?.value,
-      description: this.creationForm.get('description')?.value,
-      category: this.creationForm.get('category')?.value,
-      price: this.creationForm.get('price')?.value,
-      cost: this.creationForm.get('cost')?.value,
-      unit: this.creationForm.get('unit')?.value,
-      stock: this.creationForm.get('stock')?.value,
-      image: 'https://m.media-amazon.com/images/I/71j7TRsZjWL.__AC_SX300_SY300_QL70_FMwebp_.jpg',
+
+  onFileSelected(event: Event): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      const reader = new FileReader()
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile); // ¡convierte la imagen a base64!
     }
-    console.log(product)
-    this.api.createProduct(product).subscribe({
+  }
+
+  add() {
+    var formData = new FormData()
+    formData.append('id', this.creationForm.get('id')?.value)
+    formData.append('description', this.creationForm.get('description')?.value)
+    formData.append('category', this.creationForm.get('category')?.value)
+    formData.append('price', this.creationForm.get('price')?.value);
+    formData.append('cost', this.creationForm.get('cost')?.value);
+    formData.append('unit', this.creationForm.get('unit')?.value);
+    formData.append('stock', this.creationForm.get('stock')?.value);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
+    this.api.createProduct(formData).subscribe({
       next: (value) => {
         console.log(value)
         this.dialogRef.close()

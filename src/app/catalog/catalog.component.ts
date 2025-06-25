@@ -57,8 +57,10 @@ export class CatalogComponent implements OnInit {
 
   }
   openDialogEdit(): void {
+    const prod: IProduct = this.selection.selected[0]
+    this.selection.toggle(this.selection.selected[0])
     const dialogRef = this.dialog.open(EditComponent, {
-      data: {},
+      data: prod,
     });
     dialogRef.afterClosed().subscribe(
 

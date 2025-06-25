@@ -1,13 +1,7 @@
 <h2 mat-dialog-title>Agregar producto</h2>
 
 <mat-dialog-content class="form-dialog">
-    <form [formGroup]="creationForm" class="creation-form">
-        <mat-form-field appearance="outline">
-            <mat-label>Id</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="id">
-        
-        </mat-form-field>
-
+    <form [formGroup]="editionForm" class="creation-form">
         <mat-form-field appearance="outline">
             <mat-label>Descripción</mat-label>
             <input matInput placeholder="Placeholder" formControlName="description">
@@ -43,6 +37,8 @@
             <input matInput placeholder="Placeholder" formControlName="stock" type="number">
         
         </mat-form-field>
+
+
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
